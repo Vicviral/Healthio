@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Healthio</string>
+    <string name="google_maps_key">AIzaSyDPBPlnQgDu5vDDCGCLOAMAegZNfmuDcPk</string>
 </resources>
