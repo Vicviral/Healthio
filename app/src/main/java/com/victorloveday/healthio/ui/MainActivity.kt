@@ -1,4 +1,4 @@
-package com.victorloveday.healthio
+package com.victorloveday.healthio.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
