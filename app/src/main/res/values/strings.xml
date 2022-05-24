@@ -8,4 +8,8 @@
         <item>Calories Burned</item>
     </string-array>
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDPBPlnQgDu5vDDCGCLOAMAegZNfmuDcPk</string>
+    <string name="home">Home</string>
+    <string name="run">Run</string>
+    <string name="workout">Workout</string>
+    <string name="people">People</string>
 </resources>

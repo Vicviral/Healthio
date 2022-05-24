@@ -1,4 +1,4 @@
-package com.victorloveday.healthio.ui.fragments.runtracker
+package com.victorloveday.healthio.ui.fragments
 
 import androidx.fragment.app.Fragment
 import com.victorloveday.healthio.R
