@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_runFragment_to_trackingFragment"
             app:destination="@id/trackingFragment" />
+        <action
+            android:id="@+id/action_runFragment_to_setupFragment"
+            app:destination="@id/setupFragment" />
     </fragment>
     <fragment
         android:id="@+id/workoutFragment"

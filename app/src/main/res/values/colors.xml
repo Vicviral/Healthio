@@ -9,4 +9,7 @@
     <color name="gray">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="primaryPurple">#954FFF</color>
+    <color name="primaryBlue">#1EB6E1</color>
+    <color name="primaryGray">#545F7F</color>
+    <color name="primaryRed">#8F0007</color>
 </resources>
