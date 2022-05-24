@@ -21,6 +21,5 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        Log.d("rundao", "${runDao.hashCode()}")
     }
 }
