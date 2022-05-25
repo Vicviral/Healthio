@@ -1,5 +1,6 @@
 package com.victorloveday.healthio.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -11,6 +12,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.victorloveday.healthio.R
 import com.victorloveday.healthio.database.models.RunDao
 import com.victorloveday.healthio.databinding.ActivityMainBinding
+import com.victorloveday.healthio.utils.constants.Constant.SHOW_TRACKING_FRAGMENT
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -20,11 +22,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var navHostFragment: NavHostFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //navigate to tracking fragment when click from notification
+        navigateToTrackingFragmentIfNeeded(intent)
 
         appBarConfiguration = AppBarConfiguration(
             setOf(R.id.homeFragment, R.id.runFragment, R.id.workoutFragment, R.id.peopleFragment)
@@ -32,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
 
         //Toolbar
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
+        navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         navController = navHostFragment.findNavController()
 
         setSupportActionBar(binding.toolbar)
@@ -42,5 +48,18 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigationView.setupWithNavController(navController)
 
 
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        navigateToTrackingFragmentIfNeeded(intent)
+    }
+
+    private fun navigateToTrackingFragmentIfNeeded(intent: Intent?) {
+        if (intent != null) {
+            if(intent.action == SHOW_TRACKING_FRAGMENT) {
+                navHostFragment.findNavController().navigate(R.id.action_global_run_tracking_fragment)
+            }
+        }
     }
 }

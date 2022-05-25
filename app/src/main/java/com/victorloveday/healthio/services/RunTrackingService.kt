@@ -3,6 +3,8 @@ package com.victorloveday.healthio.services
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.NotificationManager.IMPORTANCE_LOW
+import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -11,8 +13,10 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.getSystemService
 import androidx.lifecycle.LifecycleService
 import com.victorloveday.healthio.R
+import com.victorloveday.healthio.ui.MainActivity
 import com.victorloveday.healthio.utils.constants.Constant.PAUSE_RUN_SERVICE
 import com.victorloveday.healthio.utils.constants.Constant.RESUME_OR_START_RUN_SERVICE
+import com.victorloveday.healthio.utils.constants.Constant.SHOW_TRACKING_FRAGMENT
 import com.victorloveday.healthio.utils.constants.Constant.STOP_RUN_SERVICE
 import com.victorloveday.healthio.utils.constants.Constant.TRACKING_NOTIFICATION_CHANNEL_ID
 import com.victorloveday.healthio.utils.constants.Constant.TRACKING_NOTIFICATION_CHANNEL_NAME
@@ -50,6 +54,7 @@ class RunTrackingService: LifecycleService() {
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setContentTitle("Healthio")
             .setContentText("00:00:00")
+            .setContentIntent(getMainActivityPendingIntent())
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -58,4 +63,17 @@ class RunTrackingService: LifecycleService() {
 
         notificationManager.createNotificationChannel(channel)
     }
+
+    private fun getMainActivityPendingIntent() = PendingIntent.getActivity(this,
+        0,
+        Intent(this, MainActivity::class.java).also {
+            it.action = SHOW_TRACKING_FRAGMENT
+        }, FLAG_UPDATE_CURRENT
+    )
+//    private fun getMainActivityPendingIntent() = PendingIntent.getActivity(this,
+//        0,
+//        Intent(this, MainActivity::class.java).also {
+//            it.action = SHOW_TRACKING_FRAGMENT
+//        }, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+//    )
 }
