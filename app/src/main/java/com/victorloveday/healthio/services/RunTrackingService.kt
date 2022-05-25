@@ -35,21 +35,28 @@ import com.victorloveday.healthio.utils.constants.Constant.SHOW_TRACKING_FRAGMEN
 import com.victorloveday.healthio.utils.constants.Constant.STOP_RUN_SERVICE
 import com.victorloveday.healthio.utils.constants.Constant.TRACKING_NOTIFICATION_CHANNEL_ID
 import com.victorloveday.healthio.utils.constants.Constant.TRACKING_NOTIFICATION_CHANNEL_NAME
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import pub.devrel.easypermissions.EasyPermissions
 import timber.log.Timber
+import javax.inject.Inject
 
 typealias Polyline = MutableList<LatLng>
 typealias Polylines = MutableList<Polyline>
 
+@AndroidEntryPoint
 class RunTrackingService : LifecycleService() {
 
     var isFirstRun = true
 
+    @Inject
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+
+    @Inject
+    lateinit var notificationBuilder: NotificationCompat.Builder
 
     private val timeRunInSeconds = MutableLiveData<Long>()
 
@@ -201,13 +208,6 @@ class RunTrackingService : LifecycleService() {
             createNotificationChannel(notificationManager)
         }
 
-        val notificationBuilder = NotificationCompat.Builder(this, TRACKING_NOTIFICATION_CHANNEL_ID)
-            .setAutoCancel(false)
-            .setOngoing(true)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .setContentTitle("Healthio")
-            .setContentText("00:00:00")
-            .setContentIntent(getMainActivityPendingIntent())
 
         startForeground(NOTIFICATION_ID, notificationBuilder.build())
     }
@@ -223,20 +223,6 @@ class RunTrackingService : LifecycleService() {
 
         notificationManager.createNotificationChannel(channel)
     }
-
-    private fun getMainActivityPendingIntent() = PendingIntent.getActivity(
-        this,
-        0,
-        Intent(this, MainActivity::class.java).also {
-            it.action = SHOW_TRACKING_FRAGMENT
-        }, FLAG_UPDATE_CURRENT
-    )
-//    private fun getMainActivityPendingIntent() = PendingIntent.getActivity(this,
-//        0,
-//        Intent(this, MainActivity::class.java).also {
-//            it.action = SHOW_TRACKING_FRAGMENT
-//        }, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-//    )
 
 
     private fun hasLocationPermissions(context: Context) =
