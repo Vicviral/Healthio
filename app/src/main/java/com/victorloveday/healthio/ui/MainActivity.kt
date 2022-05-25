@@ -29,6 +29,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //initialize nav host fragment
+        navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
+
         //navigate to tracking fragment when click from notification
         navigateToTrackingFragmentIfNeeded(intent)
 
@@ -38,7 +41,6 @@ class MainActivity : AppCompatActivity() {
 
 
         //Toolbar
-        navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         navController = navHostFragment.findNavController()
 
         setSupportActionBar(binding.toolbar)
