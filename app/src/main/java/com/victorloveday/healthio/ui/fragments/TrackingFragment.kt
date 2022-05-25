@@ -65,6 +65,15 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
        }
    }
     
+    private fun joinAllPolylines() {
+        for (polyline in pathPoints) {
+            val polylineOptions = PolylineOptions()
+                .color(POLYLINE_COLOR)
+                .width(POLYLINE_WIDTH)
+                .addAll(polyline)
+            map?.addPolyline(polylineOptions)
+        }
+    }
 
     override fun onResume() {
         super.onResume()
