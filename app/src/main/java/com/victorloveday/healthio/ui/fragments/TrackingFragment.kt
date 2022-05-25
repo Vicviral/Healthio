@@ -1,6 +1,7 @@
 package com.victorloveday.healthio.ui.fragments
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -41,6 +42,9 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentTrackingBinding.bind(view)
+
+        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+
         binding.mapView.onCreate(savedInstanceState)
 
         binding.startRun.setOnClickListener {
