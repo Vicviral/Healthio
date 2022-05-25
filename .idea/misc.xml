@@ -4,6 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/bottom_nav_selector.xml" value="0.25885416666666666" />
+        <entry key="app/src/main/res/drawable/ic_ball1.xml" value="0.2548717948717949" />
+        <entry key="app/src/main/res/drawable/ic_ball2.xml" value="0.2548717948717949" />
+        <entry key="app/src/main/res/drawable/ic_path_icon.xml" value="0.25885416666666666" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.24270833333333333" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.23897435897435898" />
@@ -14,7 +17,7 @@
         <entry key="app/src/main/res/layout/fragment_setup.xml" value="0.1203125" />
         <entry key="app/src/main/res/layout/fragment_sign_up.xml" value="0.23897435897435898" />
         <entry key="app/src/main/res/layout/fragment_statistics.xml" value="0.1203125" />
-        <entry key="app/src/main/res/layout/fragment_tracking.xml" value="0.1203125" />
+        <entry key="app/src/main/res/layout/fragment_tracking.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_workout.xml" value="0.24270833333333333" />
         <entry key="app/src/main/res/menu/main_bottom_nav.xml" value="0.23897435897435898" />
       </map>
