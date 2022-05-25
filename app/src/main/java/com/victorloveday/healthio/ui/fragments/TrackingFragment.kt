@@ -16,6 +16,7 @@ import com.victorloveday.healthio.services.Polyline
 import com.victorloveday.healthio.services.RunTrackingService
 import com.victorloveday.healthio.ui.viewmodels.MainViewModel
 import com.victorloveday.healthio.utils.constants.Constant.MAP_ZOOM
+import com.victorloveday.healthio.utils.constants.Constant.PAUSE_RUN_SERVICE
 import com.victorloveday.healthio.utils.constants.Constant.POLYLINE_COLOR
 import com.victorloveday.healthio.utils.constants.Constant.POLYLINE_WIDTH
 import com.victorloveday.healthio.utils.constants.Constant.RESUME_OR_START_RUN_SERVICE
@@ -99,6 +100,14 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
         }else {
             binding.startRunTxt.text = "Stop"
             binding.stopRun.visibility = View.GONE
+        }
+    }
+
+    private fun startRun() {
+        if (isTracking) {
+            sendCommandToRunService(PAUSE_RUN_SERVICE)
+        }else {
+            sendCommandToRunService(RESUME_OR_START_RUN_SERVICE)
         }
     }
 
