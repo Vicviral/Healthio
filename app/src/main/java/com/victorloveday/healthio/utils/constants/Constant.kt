@@ -16,4 +16,5 @@ object Constant {
     const val FASTEST_LOCATION_UPDATE_INTERVAL = 2000L
     var POLYLINE_COLOR = Color.parseColor("#954FFF")
     const val POLYLINE_WIDTH = 8F
+    const val MAP_ZOOM = 15F
 }

@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.google.android.gms.maps.CameraUpdate
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.PolylineOptions
 import com.victorloveday.healthio.R
@@ -13,6 +15,7 @@ import com.victorloveday.healthio.databinding.FragmentTrackingBinding
 import com.victorloveday.healthio.services.Polyline
 import com.victorloveday.healthio.services.RunTrackingService
 import com.victorloveday.healthio.ui.viewmodels.MainViewModel
+import com.victorloveday.healthio.utils.constants.Constant.MAP_ZOOM
 import com.victorloveday.healthio.utils.constants.Constant.POLYLINE_COLOR
 import com.victorloveday.healthio.utils.constants.Constant.POLYLINE_WIDTH
 import com.victorloveday.healthio.utils.constants.Constant.RESUME_OR_START_RUN_SERVICE
@@ -72,6 +75,18 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
                 .width(POLYLINE_WIDTH)
                 .addAll(polyline)
             map?.addPolyline(polylineOptions)
+        }
+    }
+
+
+    private fun updateCameraPosition() {
+        if(pathPoints.isNotEmpty() && pathPoints.last().isNotEmpty()) {
+            map?.animateCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    pathPoints.last().last(),
+                    MAP_ZOOM
+                )
+            )
         }
     }
 
