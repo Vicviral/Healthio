@@ -14,6 +14,7 @@ import androidx.core.content.getSystemService
 import androidx.lifecycle.LifecycleService
 import com.victorloveday.healthio.R
 import com.victorloveday.healthio.ui.MainActivity
+import com.victorloveday.healthio.utils.constants.Constant.NOTIFICATION_ID
 import com.victorloveday.healthio.utils.constants.Constant.PAUSE_RUN_SERVICE
 import com.victorloveday.healthio.utils.constants.Constant.RESUME_OR_START_RUN_SERVICE
 import com.victorloveday.healthio.utils.constants.Constant.SHOW_TRACKING_FRAGMENT
@@ -55,6 +56,8 @@ class RunTrackingService: LifecycleService() {
             .setContentTitle("Healthio")
             .setContentText("00:00:00")
             .setContentIntent(getMainActivityPendingIntent())
+
+        startForeground(NOTIFICATION_ID, notificationBuilder.build())
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
