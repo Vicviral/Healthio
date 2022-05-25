@@ -25,11 +25,17 @@ import timber.log.Timber
 
 class RunTrackingService: LifecycleService() {
 
+    var isFirstRun = true
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         intent?.let {
             when(it.action) {
                 RESUME_OR_START_RUN_SERVICE -> {
-                    Timber.d("Started or resume")
+                    if (isFirstRun) {
+                        startForegroundService()
+                        isFirstRun = false
+                    }else Timber.d("Resume service")
+
                 }
                 PAUSE_RUN_SERVICE -> {
                     Timber.d("Service paused")

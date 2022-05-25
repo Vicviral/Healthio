@@ -32,7 +32,7 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
 
         //test if service works
         binding.startRun.setOnClickListener {
-            sendCommandToRunService("HELL Yeaaaaah!")
+            sendCommandToRunService(RESUME_OR_START_RUN_SERVICE)
         }
     }
 
