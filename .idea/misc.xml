@@ -20,6 +20,7 @@
         <entry key="app/src/main/res/layout/fragment_tracking.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_workout.xml" value="0.24270833333333333" />
         <entry key="app/src/main/res/menu/main_bottom_nav.xml" value="0.23897435897435898" />
+        <entry key="app/src/main/res/menu/toolbar_running_tracking_menu.xml" value="0.24270833333333333" />
       </map>
     </option>
   </component>

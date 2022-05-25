@@ -35,7 +35,7 @@ class ServiceModule {
 
     @ServiceScoped
     @Provides
-    fun provideNotificationBuilder(@ApplicationContext app: Context, pendingIntent: PendingIntent) = NotificationCompat.Builder(app,
+    fun provideBaseNotificationBuilder(@ApplicationContext app: Context, pendingIntent: PendingIntent) = NotificationCompat.Builder(app,
         Constant.TRACKING_NOTIFICATION_CHANNEL_ID
     )
         .setAutoCancel(false)
