@@ -25,35 +25,45 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.maps.model.LatLng
 import com.victorloveday.healthio.R
 import com.victorloveday.healthio.ui.MainActivity
-import com.victorloveday.healthio.utils.RunTrackingUtility
 import com.victorloveday.healthio.utils.constants.Constant.FASTEST_LOCATION_UPDATE_INTERVAL
 import com.victorloveday.healthio.utils.constants.Constant.LOCATION_UPDATE_INTERVAL
 import com.victorloveday.healthio.utils.constants.Constant.NOTIFICATION_ID
 import com.victorloveday.healthio.utils.constants.Constant.PAUSE_RUN_SERVICE
 import com.victorloveday.healthio.utils.constants.Constant.RESUME_OR_START_RUN_SERVICE
+import com.victorloveday.healthio.utils.constants.Constant.RUNNING_TIMER_UPDATE_INTERVAL
 import com.victorloveday.healthio.utils.constants.Constant.SHOW_TRACKING_FRAGMENT
 import com.victorloveday.healthio.utils.constants.Constant.STOP_RUN_SERVICE
 import com.victorloveday.healthio.utils.constants.Constant.TRACKING_NOTIFICATION_CHANNEL_ID
 import com.victorloveday.healthio.utils.constants.Constant.TRACKING_NOTIFICATION_CHANNEL_NAME
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import pub.devrel.easypermissions.EasyPermissions
 import timber.log.Timber
 
 typealias Polyline = MutableList<LatLng>
 typealias Polylines = MutableList<Polyline>
+
 class RunTrackingService : LifecycleService() {
 
     var isFirstRun = true
 
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
+    private val timeRunInSeconds = MutableLiveData<Long>()
+
     companion object {
         val isTracking = MutableLiveData<Boolean>()
         val pathPoints = MutableLiveData<Polylines>()
+        val timeRunInMillis = MutableLiveData<Long>()
     }
 
     private fun postInitialValues() {
         isTracking.postValue(false)
         pathPoints.postValue(mutableListOf())
+        timeRunInSeconds.postValue(0L)
+        timeRunInMillis.postValue(0L)
     }
 
     override fun onCreate() {
@@ -71,11 +81,11 @@ class RunTrackingService : LifecycleService() {
             when (it.action) {
                 RESUME_OR_START_RUN_SERVICE -> {
                     if (isFirstRun) {
-                         startForegroundService()
+                        startForegroundService()
                         isFirstRun = false
                     } else {
                         Timber.d("Service resumed")
-                        startForegroundService()
+                        startTimer()
                     }
 
                 }
@@ -93,6 +103,37 @@ class RunTrackingService : LifecycleService() {
 
     private fun pauseService() {
         isTracking.postValue(false)
+        isTimerRunning = false
+    }
+
+    private var isTimerRunning = false
+    private var lapTime = 0L
+    private var timeRun = 0L
+    private var timeStarted = 0L
+    private var lastSecondTimestamp = 0L
+
+    private fun startTimer() {
+        //add empty line from start
+        emptyPolyline()
+        isTracking.postValue(true)
+        timeStarted = System.currentTimeMillis()
+        isTimerRunning = true
+
+        CoroutineScope(Dispatchers.Main).launch {
+            while (isTracking.value!!) {
+                //time difference between recent time and time started
+                lapTime = System.currentTimeMillis() - timeStarted
+                //post new lap time
+                timeRunInMillis.postValue(timeRun + lapTime)
+                if (timeRunInMillis.value!! >= lastSecondTimestamp + 1000L) {
+                    timeRunInSeconds.postValue(timeRunInSeconds.value!! + 1)
+                    lastSecondTimestamp += 1000L
+                }
+                delay(RUNNING_TIMER_UPDATE_INTERVAL )
+            }
+
+            timeRun += lapTime
+        }
     }
 
     @SuppressLint("MissingPermission")
@@ -100,7 +141,7 @@ class RunTrackingService : LifecycleService() {
         if (isTracking == true) {
             if (hasLocationPermissions(this)) {
                 val request = LocationRequest().apply {
-                     interval = LOCATION_UPDATE_INTERVAL
+                    interval = LOCATION_UPDATE_INTERVAL
                     fastestInterval = FASTEST_LOCATION_UPDATE_INTERVAL
                     priority = PRIORITY_HIGH_ACCURACY
                 }
@@ -111,7 +152,7 @@ class RunTrackingService : LifecycleService() {
                     Looper.getMainLooper()
                 )
             }
-        }else {
+        } else {
             fusedLocationProviderClient.removeLocationUpdates(locationCallback)
         }
     }
@@ -148,8 +189,8 @@ class RunTrackingService : LifecycleService() {
 
 
     private fun startForegroundService() {
-        //add empty line from start
-        emptyPolyline()
+        //start timer
+        startTimer()
 
         isTracking.postValue(true)
 

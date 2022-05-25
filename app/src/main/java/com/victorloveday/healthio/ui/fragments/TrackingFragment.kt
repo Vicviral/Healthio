@@ -16,12 +16,14 @@ import com.victorloveday.healthio.databinding.FragmentTrackingBinding
 import com.victorloveday.healthio.services.Polyline
 import com.victorloveday.healthio.services.RunTrackingService
 import com.victorloveday.healthio.ui.viewmodels.MainViewModel
+import com.victorloveday.healthio.utils.RunTrackingUtility
 import com.victorloveday.healthio.utils.constants.Constant.MAP_ZOOM
 import com.victorloveday.healthio.utils.constants.Constant.PAUSE_RUN_SERVICE
 import com.victorloveday.healthio.utils.constants.Constant.POLYLINE_COLOR
 import com.victorloveday.healthio.utils.constants.Constant.POLYLINE_WIDTH
 import com.victorloveday.healthio.utils.constants.Constant.RESUME_OR_START_RUN_SERVICE
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class TrackingFragment : Fragment(R.layout.fragment_tracking) {
@@ -33,6 +35,8 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
     private var pathPoints = mutableListOf<Polyline>()
 
     private var map: GoogleMap? = null
+
+    private var currentTimeInMillis = 0L
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -125,6 +129,11 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
             joinLastPolylines()
             updateCameraPosition()
         })
+        RunTrackingService.timeRunInMillis.observe(viewLifecycleOwner, Observer {
+            currentTimeInMillis = it
+            val formattedTIme = getFormattedStopWatchTime(currentTimeInMillis, true)
+            binding.timer.text = formattedTIme
+        })
     }
 
     override fun onResume() {
@@ -156,4 +165,29 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
         super.onSaveInstanceState(outState)
         binding.mapView.onSaveInstanceState(outState)
     }
+
+    fun getFormattedStopWatchTime(ms: Long, includeMillis: Boolean = false): String {
+        var milliSeconds = ms
+        val hours = TimeUnit.MILLISECONDS.toHours(milliSeconds)
+        milliSeconds -= TimeUnit.HOURS.toMillis((hours))
+        val minutes = TimeUnit.MINUTES.toMinutes(milliSeconds)
+        milliSeconds -= TimeUnit.MINUTES.toMillis(minutes)
+        val seconds = TimeUnit.MINUTES.toSeconds(milliSeconds)
+
+        if (!includeMillis) {
+            return "${if (hours<10) "0" else ""}$hours:" +
+                    "${if (minutes < 10) "0" else ""}$minutes:" +
+                    "${if (seconds < 10) "0" else ""}$seconds"
+        }
+
+        milliSeconds -= TimeUnit.SECONDS.toMillis(seconds)
+        milliSeconds /= 10
+
+        return "${if (hours<10) "0" else ""}$hours:" +
+                "${if (minutes < 10) "0" else ""}$minutes:" +
+                "${if (seconds < 10) "0" else ""}$seconds:" +
+                "${if (milliSeconds < 10) "0" else ""}$milliSeconds"
+
+    }
+
 }

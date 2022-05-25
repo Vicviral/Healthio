@@ -17,4 +17,5 @@ object Constant {
     var POLYLINE_COLOR = Color.parseColor("#954FFF")
     const val POLYLINE_WIDTH = 8F
     const val MAP_ZOOM = 15F
+    const val RUNNING_TIMER_UPDATE_INTERVAL = 50L
 }
