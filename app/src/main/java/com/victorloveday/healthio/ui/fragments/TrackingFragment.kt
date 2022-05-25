@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -38,14 +39,18 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
         binding = FragmentTrackingBinding.bind(view)
         binding.mapView.onCreate(savedInstanceState)
 
-        binding.mapView.getMapAsync {
-            map = it
+        binding.startRun.setOnClickListener {
+            startRun()
         }
 
-        //test if service works
-        binding.startRun.setOnClickListener {
-            sendCommandToRunService(RESUME_OR_START_RUN_SERVICE)
+        binding.mapView.getMapAsync {
+            map = it
+            joinAllPolylines()
         }
+
+        subscribeToObservers()
+
+
     }
 
     private fun sendCommandToRunService(action: String) =
@@ -109,6 +114,17 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
         }else {
             sendCommandToRunService(RESUME_OR_START_RUN_SERVICE)
         }
+    }
+
+    private fun subscribeToObservers() {
+        RunTrackingService.isTracking.observe(viewLifecycleOwner, Observer { boolean ->
+            updateTracking(boolean)
+        })
+        RunTrackingService.pathPoints.observe(viewLifecycleOwner, Observer {  polylines ->
+            pathPoints = polylines
+            joinLastPolylines()
+            updateCameraPosition()
+        })
     }
 
     override fun onResume() {
