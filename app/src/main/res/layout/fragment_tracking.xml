@@ -53,15 +53,17 @@
                 android:layout_width="80dp"
                 android:layout_height="40dp"
                 android:layout_margin="10dp"
-                app:cardBackgroundColor="@color/primaryRed"
+                android:visibility="gone"
+                app:cardBackgroundColor="@color/colorAccent"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="5dp">
 
                 <TextView
+                    android:id="@+id/stopRunTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Stop"
+                    android:text="Finish"
                     android:textColor="@color/white"
                     android:textStyle="bold" />
             </com.google.android.material.card.MaterialCardView>
@@ -76,6 +78,7 @@
                 app:cardElevation="5dp">
 
                 <TextView
+                    android:id="@+id/startRunTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

@@ -90,6 +90,18 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
         }
     }
 
+    private fun updateTracking(isTracking: Boolean) {
+        this.isTracking = isTracking
+        if (!isTracking) {
+            binding.startRunTxt.text = "Start"
+            //set finish button visible
+            binding.stopRun.visibility = View.VISIBLE
+        }else {
+            binding.startRunTxt.text = "Stop"
+            binding.stopRun.visibility = View.GONE
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         binding.mapView.onResume()
