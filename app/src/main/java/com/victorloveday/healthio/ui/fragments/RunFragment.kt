@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.victorloveday.healthio.R
+import com.victorloveday.healthio.adapters.RunAdapter
 import com.victorloveday.healthio.databinding.FragmentRunBinding
 import com.victorloveday.healthio.ui.viewmodels.MainViewModel
 import com.victorloveday.healthio.utils.constants.Constant.REQUEST_CODE_LOCATION_PERMISSION
@@ -21,6 +22,7 @@ class RunFragment : Fragment(R.layout.fragment_run), EasyPermissions.PermissionC
 
     private val viewModel: MainViewModel by viewModels()
     private lateinit var binding: FragmentRunBinding
+    private lateinit var runAdapter: RunAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

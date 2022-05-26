@@ -239,7 +239,7 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
             val dateTimeStamp = Calendar.getInstance().timeInMillis
             val caloriesBurnt = ((distanceInMeters / 1000F) * weight).toInt()
 
-            val run  = Run(bitmap, dateTimeStamp, caloriesBurnt, distanceInMeters, averageSpeed)
+            val run  = Run(bitmap, dateTimeStamp, currentTimeInMillis, caloriesBurnt, distanceInMeters, averageSpeed)
 
             //save run data to db
             viewModel.addRun(run)
