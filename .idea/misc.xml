@@ -6,6 +6,8 @@
         <entry key="app/src/main/res/drawable/bottom_nav_selector.xml" value="0.25885416666666666" />
         <entry key="app/src/main/res/drawable/ic_ball1.xml" value="0.2548717948717949" />
         <entry key="app/src/main/res/drawable/ic_ball2.xml" value="0.2548717948717949" />
+        <entry key="app/src/main/res/drawable/ic_close_white.xml" value="0.2548717948717949" />
+        <entry key="app/src/main/res/drawable/ic_delete.xml" value="0.2548717948717949" />
         <entry key="app/src/main/res/drawable/ic_path_icon.xml" value="0.25885416666666666" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.24270833333333333" />

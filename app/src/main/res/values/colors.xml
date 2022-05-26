@@ -12,4 +12,5 @@
     <color name="primaryBlue">#1EB6E1</color>
     <color name="primaryGray">#545F7F</color>
     <color name="primaryRed">#8F0007</color>
+    <color name="deleteRed">#CF0811</color>
 </resources>

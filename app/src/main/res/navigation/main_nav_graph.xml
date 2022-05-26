@@ -38,7 +38,11 @@
     <fragment
         android:id="@+id/trackingFragment"
         android:name="com.victorloveday.healthio.ui.fragments.TrackingFragment"
-        android:label="TrackingFragment" />
+        android:label="TrackingFragment" >
+        <action
+            android:id="@+id/action_trackingFragment_to_runFragment"
+            app:destination="@id/runFragment" />
+    </fragment>
     <fragment
         android:id="@+id/setupFragment"
         android:name="com.victorloveday.healthio.ui.fragments.SetupFragment"

@@ -2,27 +2,27 @@ package com.victorloveday.healthio.ui.fragments
 
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.graphics.Color
 import android.os.Bundle
-import android.view.View
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.google.android.gms.maps.CameraUpdate
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.victorloveday.healthio.R
 import com.victorloveday.healthio.databinding.FragmentTrackingBinding
 import com.victorloveday.healthio.services.Polyline
 import com.victorloveday.healthio.services.RunTrackingService
 import com.victorloveday.healthio.ui.viewmodels.MainViewModel
-import com.victorloveday.healthio.utils.RunTrackingUtility
 import com.victorloveday.healthio.utils.constants.Constant.MAP_ZOOM
 import com.victorloveday.healthio.utils.constants.Constant.PAUSE_RUN_SERVICE
 import com.victorloveday.healthio.utils.constants.Constant.POLYLINE_COLOR
 import com.victorloveday.healthio.utils.constants.Constant.POLYLINE_WIDTH
 import com.victorloveday.healthio.utils.constants.Constant.RESUME_OR_START_RUN_SERVICE
+import com.victorloveday.healthio.utils.constants.Constant.STOP_RUN_SERVICE
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 
@@ -38,6 +38,17 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
     private var map: GoogleMap? = null
 
     private var currentTimeInMillis = 0L
+
+    private var menu: Menu? = null
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        setHasOptionsMenu(true)
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -59,6 +70,48 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
         subscribeToObservers()
 
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.toolbar_run_menu, menu)
+        this.menu = menu
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        if (currentTimeInMillis > 0L) {
+            this.menu?.getItem(0)?.isVisible = true
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.cancelRun -> {
+                showCancelRunDialog()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun showCancelRunDialog() {
+        val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogTheme)
+            .setTitle("Delete Run?")
+            .setMessage("All data for this run event will be lost. Do you want to delete?")
+            .setIcon(R.drawable.ic_delete)
+            .setPositiveButton("Delete") { _, _ ->
+                stopRun()
+            }
+            .setNegativeButton("Cancel") { dialogInterface, _ ->
+                dialogInterface.cancel()
+            }
+            .create()
+        dialog.show()
+    }
+
+    private fun stopRun() {
+        sendCommandToRunService(STOP_RUN_SERVICE)
+        findNavController().navigate(R.id.action_trackingFragment_to_runFragment)
     }
 
     private fun sendCommandToRunService(action: String) =
@@ -107,17 +160,19 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
     private fun updateTracking(isTracking: Boolean) {
         this.isTracking = isTracking
         if (!isTracking) {
-            binding.startRunTxt.text = "Start"
+            binding.startRunTxt.text = "Resume"
             //set finish button visible
             binding.stopRun.visibility = View.VISIBLE
         }else {
             binding.startRunTxt.text = "Stop"
+            menu?.getItem(0)?.isVisible = true
             binding.stopRun.visibility = View.GONE
         }
     }
 
     private fun startRun() {
         if (isTracking) {
+            menu?.getItem(0)?.isVisible = true
             sendCommandToRunService(PAUSE_RUN_SERVICE)
         }else {
             sendCommandToRunService(RESUME_OR_START_RUN_SERVICE)
