@@ -2,6 +2,7 @@ package com.victorloveday.healthio.ui.fragments
 
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.location.Location
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -10,9 +11,12 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.victorloveday.healthio.R
+import com.victorloveday.healthio.database.models.Run
 import com.victorloveday.healthio.databinding.FragmentTrackingBinding
 import com.victorloveday.healthio.services.Polyline
 import com.victorloveday.healthio.services.RunTrackingService
@@ -24,7 +28,9 @@ import com.victorloveday.healthio.utils.constants.Constant.POLYLINE_WIDTH
 import com.victorloveday.healthio.utils.constants.Constant.RESUME_OR_START_RUN_SERVICE
 import com.victorloveday.healthio.utils.constants.Constant.STOP_RUN_SERVICE
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.math.round
 
 @AndroidEntryPoint
 class TrackingFragment : Fragment(R.layout.fragment_tracking) {
@@ -40,6 +46,9 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
     private var currentTimeInMillis = 0L
 
     private var menu: Menu? = null
+
+    //for demo purpose
+    private var weight = 50F
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -195,6 +204,40 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
         })
     }
 
+    private fun zoomToSeeFullTrack() {
+        val bounds = LatLngBounds.builder()
+        for (polyline in pathPoints) {
+            for (position in polyline) {
+                bounds.include(position)
+            }
+        }
+
+        map?.moveCamera(
+            CameraUpdateFactory.newLatLngBounds(
+                bounds.build(),
+                binding.mapView.width,
+                binding.mapView.height,
+                (binding.mapView.height * 0.05f).toInt()
+
+            )
+        )
+    }
+
+    private fun saveRunToRoom() {
+        map?.snapshot { bitmap ->
+            var distanceInMeters = 0
+            for (polyline in pathPoints) {
+                distanceInMeters += calculatePolylineLength(polyline).toInt()
+            }
+
+            val averageSpeed = round ((distanceInMeters / 1000F) / (currentTimeInMillis / 1000F / 60 / 60) * 10 ) / 10F
+            val dateTimeStamp = Calendar.getInstance().timeInMillis
+            val caloriesBurnt = ((distanceInMeters / 1000F) * weight).toInt()
+
+            val run  = Run(bitmap, dateTimeStamp, caloriesBurnt, distanceInMeters, averageSpeed)
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         binding.mapView.onResume()
@@ -244,4 +287,27 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
                 "${if(seconds < 10) "0" else ""}$seconds:" +
                 "${if(milliseconds < 10) "0" else ""}$milliseconds"
     }
+
+    fun calculatePolylineLength(polyline: Polyline): Float {
+        var distance = 0F
+        for (i in 0..polyline.size - 2) {
+            val position1 = polyline[i]
+            val position2 = polyline[i+1]
+
+            val result = FloatArray(1)
+
+            Location.distanceBetween(
+                position1.latitude,
+                position1.longitude,
+                position2.latitude,
+                position2.longitude,
+                result
+            )
+
+            distance += result[0]
+        }
+
+        return distance
+    }
+
 }
