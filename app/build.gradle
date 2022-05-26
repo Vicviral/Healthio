@@ -111,4 +111,8 @@ dependencies {
 
     //Circle image view
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    //Alerter
+    implementation 'com.tapadoo.android:alerter:6.1.0'
+
 }

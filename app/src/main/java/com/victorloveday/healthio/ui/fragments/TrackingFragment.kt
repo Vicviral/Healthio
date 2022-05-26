@@ -11,10 +11,10 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.tapadoo.alerter.Alerter
 import com.victorloveday.healthio.R
 import com.victorloveday.healthio.database.models.Run
 import com.victorloveday.healthio.databinding.FragmentTrackingBinding
@@ -69,6 +69,11 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
 
         binding.startRun.setOnClickListener {
             startRun()
+        }
+
+        binding.stopRun.setOnClickListener {
+            zoomToSeeFullTrack()
+            saveRunToRoom()
         }
 
         binding.mapView.getMapAsync {
@@ -235,6 +240,16 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
             val caloriesBurnt = ((distanceInMeters / 1000F) * weight).toInt()
 
             val run  = Run(bitmap, dateTimeStamp, caloriesBurnt, distanceInMeters, averageSpeed)
+
+            //save run data to db
+            viewModel.addRun(run)
+
+            Alerter.create(activity)
+                .setTitle("Alert Title")
+                .setText("Alert text...")
+                .show()
+
+            stopRun()
         }
     }
 
