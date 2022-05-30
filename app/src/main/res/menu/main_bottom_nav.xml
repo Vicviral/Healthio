@@ -15,6 +15,6 @@
 
     <item android:id="@+id/peopleFragment"
         android:title="@string/people"
-        android:icon="@drawable/ic_people_icon"/>
+        android:icon="@drawable/ic_commuinity_icon_purple"/>
 
 </menu>

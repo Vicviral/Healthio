@@ -11,7 +11,9 @@ class MainRepository @Inject constructor(
 
     suspend fun deleteRun(run: Run) = runDao.deleteRun(run)
 
-    fun getRunsByData() = runDao.getRunsByDate()
+    fun getRunsByDate() = runDao.getRunsByDate()
+
+    fun getRunsByTime() = runDao.getRunsByTime()
 
     fun getRunsByDistanceCovered() = runDao.getRunsByDistanceCovered()
 
@@ -24,4 +26,6 @@ class MainRepository @Inject constructor(
     fun getTotalBurntCalories() = runDao.getTotalBurntCalories()
 
     fun getTotalDistanceCovered() = runDao.getTotalDistanceCovered()
+
+    fun getTotalTimeSpent() = runDao.getTotalTimeSpent()
 }

@@ -13,4 +13,11 @@
     <string name="workout">Workout</string>
     <string name="people">People</string>
     <string name="dashboard">Dashboard</string>
+    <string name="add_run">Add Run</string>
+    <string name="search">Search</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="average_speed">Average Speed</string>
+    <string name="calories_burned">Calories Burned</string>
+    <string name="distance">Distance</string>
 </resources>

@@ -3,19 +3,26 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-v24/blue_circle.xml" value="0.2548717948717949" />
+        <entry key="app/src/main/res/drawable-v24/bottom_nav_selector_dark.xml" value="0.2548717948717949" />
+        <entry key="app/src/main/res/drawable-v24/ic_commuinity_icon_black.xml" value="0.2548717948717949" />
+        <entry key="app/src/main/res/drawable-v24/ic_commuinity_icon_purple.xml" value="0.2548717948717949" />
         <entry key="app/src/main/res/drawable/bottom_nav_selector.xml" value="0.25885416666666666" />
+        <entry key="app/src/main/res/drawable/ic_add_run_icon_2.xml" value="0.2548717948717949" />
         <entry key="app/src/main/res/drawable/ic_ball1.xml" value="0.2548717948717949" />
         <entry key="app/src/main/res/drawable/ic_ball2.xml" value="0.2548717948717949" />
         <entry key="app/src/main/res/drawable/ic_baseline_fiber_manual_record_24.xml" value="0.2548717948717949" />
         <entry key="app/src/main/res/drawable/ic_close_white.xml" value="0.2548717948717949" />
+        <entry key="app/src/main/res/drawable/ic_commuinity_icon.xml" value="0.2548717948717949" />
         <entry key="app/src/main/res/drawable/ic_delete.xml" value="0.2548717948717949" />
         <entry key="app/src/main/res/drawable/ic_path_icon.xml" value="0.25885416666666666" />
+        <entry key="app/src/main/res/drawable/ic_workout_icon.xml" value="0.2548717948717949" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.24270833333333333" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.23897435897435898" />
         <entry key="app/src/main/res/layout/fragment_on_boarding.xml" value="0.23897435897435898" />
         <entry key="app/src/main/res/layout/fragment_people.xml" value="0.24270833333333333" />
-        <entry key="app/src/main/res/layout/fragment_run.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/fragment_run.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.1203125" />
         <entry key="app/src/main/res/layout/fragment_setup.xml" value="0.1203125" />
         <entry key="app/src/main/res/layout/fragment_sign_up.xml" value="0.23897435897435898" />
@@ -24,6 +31,8 @@
         <entry key="app/src/main/res/layout/fragment_workout.xml" value="0.24270833333333333" />
         <entry key="app/src/main/res/layout/item_run.xml" value="0.25" />
         <entry key="app/src/main/res/menu/main_bottom_nav.xml" value="0.23897435897435898" />
+        <entry key="app/src/main/res/menu/toolbar_run_filter.xml" value="0.24270833333333333" />
+        <entry key="app/src/main/res/menu/toolbar_run_menu.xml" value="0.24270833333333333" />
         <entry key="app/src/main/res/menu/toolbar_running_tracking_menu.xml" value="0.24270833333333333" />
       </map>
     </option>

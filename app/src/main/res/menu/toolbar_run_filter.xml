@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/searchRun"
+        android:title="@string/search"
+        android:icon="@drawable/ic_baseline_search_24"
+        app:showAsAction="always" />
+
+    <item android:id="@+id/sortRunByDate"
+        android:title="@string/date"
+        android:icon="@drawable/ic_baseline_filter_list_24"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/sortRunByTime"
+        android:title="@string/time"
+        android:icon="@drawable/ic_baseline_filter_list_24"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/sortRunByDistance"
+        android:title="@string/distance"
+        android:icon="@drawable/ic_baseline_filter_list_24"
+        app:showAsAction="never" />
+
+
+    <item android:id="@+id/sortRunByAvgSpeed"
+        android:title="@string/average_speed"
+        android:icon="@drawable/ic_baseline_filter_list_24"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/sortRunByCaloriesBurned"
+        android:icon="@drawable/ic_baseline_filter_list_24"
+        android:title="@string/calories_burned"
+        app:showAsAction="never" />
+
+</menu>
