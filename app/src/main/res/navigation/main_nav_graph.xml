@@ -19,9 +19,6 @@
         <action
             android:id="@+id/action_runFragment_to_trackingFragment"
             app:destination="@id/trackingFragment" />
-        <action
-            android:id="@+id/action_runFragment_to_setupFragment"
-            app:destination="@id/setupFragment" />
     </fragment>
     <fragment
         android:id="@+id/workoutFragment"
@@ -44,16 +41,8 @@
             app:destination="@id/runFragment" />
     </fragment>
     <fragment
-        android:id="@+id/setupFragment"
-        android:name="com.victorloveday.healthio.ui.fragments.SetupFragment"
-        android:label="SetupFragment" >
-        <action
-            android:id="@+id/action_setupFragment_to_runFragment"
-            app:destination="@id/runFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/onBoardingFragment"
-        android:name="com.victorloveday.healthio.ui.fragments.intro.OnBoardingFragment"
+        android:name="com.victorloveday.healthio.ui.intro.OnBoardingFragment"
         android:label="OnBoardingFragment" >
         <action
             android:id="@+id/action_onBoardingFragment_to_loginFragment"
@@ -61,7 +50,7 @@
     </fragment>
     <fragment
         android:id="@+id/signupFragment"
-        android:name="com.victorloveday.healthio.ui.fragments.intro.SignupFragment"
+        android:name="com.victorloveday.healthio.ui.intro.SignupFragment"
         android:label="SignupFragment" >
         <action
             android:id="@+id/action_signupFragment_to_loginFragment"
@@ -72,7 +61,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.victorloveday.healthio.ui.fragments.intro.LoginFragment"
+        android:name="com.victorloveday.healthio.ui.intro.LoginFragment"
         android:label="LoginFragment" >
         <action
             android:id="@+id/action_loginFragment_to_signupFragment"

@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<!--    <Spinner-->
-<!--        android:id="@+id/spFilter"-->
-<!--        android:layout_width="50dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:entries="@array/filter_options"-->
-<!--        android:paddingTop="8dp"-->
-<!--        android:paddingBottom="8dp"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
-
+    <!--    <Spinner-->
+    <!--        android:id="@+id/spFilter"-->
+    <!--        android:layout_width="50dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:entries="@array/filter_options"-->
+    <!--        android:paddingTop="8dp"-->
+    <!--        android:paddingBottom="8dp"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/runsHistory"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -31,16 +30,66 @@
         android:id="@+id/newRun"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="@string/add_run"
+        android:scaleType="center"
         android:src="@drawable/ic_add_run_icon_2"
         app:backgroundTint="@color/primaryBlue"
         app:fabSize="normal"
-        android:scaleType="center"
-        android:visibility="visible"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:tint="@android:color/white"
-        android:contentDescription="@string/add_run" />
+        app:tint="@android:color/white" />
+
+    <LinearLayout
+        android:id="@+id/addWeightBottomSheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:visibility="gone"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/bottom_sheet_bg"
+        android:elevation="20dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="Hey Jane Doe. Tell us your body weight." />
+
+        <EditText
+            android:id="@+id/weight"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:inputType="number"
+            android:background="@drawable/field_input_bg"
+            android:fontFamily="@font/roboto"
+            android:hint="Ex. 65kg"
+            android:textAlignment="center"
+            android:textColorHint="#6C6B6B" />
+
+        <Button
+            android:id="@+id/done"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/primary_button"
+            android:fontFamily="@font/roboto"
+            android:text="Done"
+            android:textAllCaps="false"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

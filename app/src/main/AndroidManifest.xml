@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".utils.BaseApplication"
@@ -17,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Healthio">
         <activity
+            android:name=".ui.intro.SetupActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.MainActivity"
             android:exported="true"
             android:launchMode="singleTask">
@@ -25,7 +28,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
         <meta-data
@@ -34,9 +36,13 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
-        <service android:name=".services.RunTrackingService"
-            android:foregroundServiceType="location"/>
+        <service
+            android:name=".services.RunTrackingService"
+            android:foregroundServiceType="location" />
     </application>
 
 </manifest>

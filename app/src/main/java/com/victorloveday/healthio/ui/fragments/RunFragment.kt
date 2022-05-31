@@ -2,34 +2,46 @@ package com.victorloveday.healthio.ui.fragments
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.*
-import android.widget.AdapterView
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.victorloveday.healthio.R
 import com.victorloveday.healthio.adapters.RunAdapter
+import com.victorloveday.healthio.database.UserManager
 import com.victorloveday.healthio.databinding.FragmentRunBinding
+import com.victorloveday.healthio.ui.MainActivity
 import com.victorloveday.healthio.ui.viewmodels.MainViewModel
-import com.victorloveday.healthio.utils.SortRunType
 import com.victorloveday.healthio.utils.constants.Constant.REQUEST_CODE_LOCATION_PERMISSION
+import com.victorloveday.healthio.utils.observeOnce
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
-import java.util.*
 
+@DelicateCoroutinesApi
 @AndroidEntryPoint
 class RunFragment : Fragment(R.layout.fragment_run), EasyPermissions.PermissionCallbacks {
+
+    lateinit var userManager: UserManager
 
     private val viewModel: MainViewModel by viewModels()
     private lateinit var binding: FragmentRunBinding
     private lateinit var runAdapter: RunAdapter
     private var menu: Menu? = null
+
+    private lateinit var fromBottomEffect: Animation
 
 
     override fun onCreateView(
@@ -46,19 +58,30 @@ class RunFragment : Fragment(R.layout.fragment_run), EasyPermissions.PermissionC
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentRunBinding.bind(view)
 
+        //initialize animations
+        initializeAnimations()
+
         //request permissions
         requestPermissions()
+
+        //check if runs exist
+        checkIfRunExist()
+
+        //check if user has entered his/her weight
+        userManager = UserManager(requireContext())
+        binding.newRun.setOnClickListener {
+            checkIfWeightSaved()
+        }
 
         //display recycler view
         setUpRunHistoryRecyclerView()
 
+
+        //sort runs by calories burnt by default
         viewModel.runsSortedByCaloriesBurnt.observe(viewLifecycleOwner, Observer {
             runAdapter.submitList(it)
         })
 
-        binding.newRun.setOnClickListener {
-            findNavController().navigate(R.id.action_runFragment_to_trackingFragment)
-        }
 
         //update total runs on toolbar
         activity?.actionBar?.title = "Hello"
@@ -175,4 +198,55 @@ class RunFragment : Fragment(R.layout.fragment_run), EasyPermissions.PermissionC
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
+
+
+
+
+    private fun checkIfWeightSaved() {
+        userManager.userWeightFlow.asLiveData().observeOnce(viewLifecycleOwner, { userWeight ->
+            if (userWeight == 0) {
+                binding.addWeightBottomSheet.visibility = View.VISIBLE
+                binding.addWeightBottomSheet.startAnimation(fromBottomEffect)
+
+                binding.done.setOnClickListener {
+                    saveUserWeight()
+                }
+            }else {
+                findNavController().navigate(R.id.action_runFragment_to_trackingFragment)
+            }
+        })
+    }
+
+    private fun saveUserWeight() {
+        val userWeight = binding.weight.text.toString().toInt()
+
+        GlobalScope.launch {
+            userManager.storeWeight(userWeight)
+        }
+
+        Toast.makeText(requireContext(), "Save Successfully!", Toast.LENGTH_SHORT).show()
+        findNavController().navigate(R.id.action_runFragment_to_trackingFragment)
+    }
+
+    private fun checkIfRunExist() {
+        viewModel.runsSortedByDate.observeOnce(viewLifecycleOwner, { runs ->
+            if (runs.isEmpty()) {
+
+            }
+        })
+    }
+
+    private fun initializeAnimations() {
+        fromBottomEffect = AnimationUtils.loadAnimation(requireContext(), R.anim.from_bottom)
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+
+//        checkIfWeightSaved()
+        checkIfRunExist()
+
+    }
+
 }

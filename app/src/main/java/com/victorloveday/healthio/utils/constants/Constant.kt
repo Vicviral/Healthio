@@ -18,4 +18,5 @@ object Constant {
     const val POLYLINE_WIDTH = 8F
     const val MAP_ZOOM = 15F
     const val RUNNING_TIMER_UPDATE_INTERVAL = 50L
+    const val REQUIRED_AGE_TO_USE_APP = 6
 }
