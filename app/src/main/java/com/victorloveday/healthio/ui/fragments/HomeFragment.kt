@@ -3,12 +3,11 @@ package com.victorloveday.healthio.ui.fragments
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.victorloveday.healthio.R
 import com.victorloveday.healthio.databinding.FragmentHomeBinding
-import com.victorloveday.healthio.ui.intro.SetupActivity
+import com.victorloveday.healthio.ui.settings.SettingsActivity
 import com.victorloveday.healthio.ui.viewmodels.StatisticsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -44,7 +43,7 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.settings -> {
-                startActivity(Intent(requireContext(), SetupActivity::class.java))
+                startActivity(Intent(requireContext(), SettingsActivity::class.java))
             }
         }
         return super.onOptionsItemSelected(item)

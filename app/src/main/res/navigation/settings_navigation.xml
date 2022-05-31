@@ -1,6 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/settings_navigation">
+    android:id="@+id/settings_navigation"
+    app:startDestination="@id/setupFragment">
 
+    <fragment
+        android:id="@+id/setupFragment"
+        android:name="com.victorloveday.healthio.ui.settings.SetupFragment"
+        android:label="SetupFragment" >
+        <action
+            android:id="@+id/action_setupFragment_to_myProfileFragment"
+            app:destination="@id/myProfileFragment" />
+        <action
+            android:id="@+id/action_setupFragment_to_accountFragment"
+            app:destination="@id/accountFragment" />
+        <action
+            android:id="@+id/action_setupFragment_to_notificationFragment"
+            app:destination="@id/notificationFragment" />
+        <action
+            android:id="@+id/action_setupFragment_to_helpFragment"
+            app:destination="@id/helpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="com.victorloveday.healthio.ui.settings.AccountFragment"
+        android:label="AccountFragment" />
+    <fragment
+        android:id="@+id/myProfileFragment"
+        android:name="com.victorloveday.healthio.ui.settings.MyProfileFragment"
+        android:label="MyProfileFragment" />
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.victorloveday.healthio.ui.settings.NotificationFragment"
+        android:label="NotificationFragment" />
+    <fragment
+        android:id="@+id/helpFragment"
+        android:name="com.victorloveday.healthio.ui.settings.HelpFragment"
+        android:label="HelpFragment" />
 </navigation>
