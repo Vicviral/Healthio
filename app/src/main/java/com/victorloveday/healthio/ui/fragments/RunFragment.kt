@@ -89,7 +89,7 @@ class RunFragment : Fragment(R.layout.fragment_run), EasyPermissions.PermissionC
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.toolbar_run_filter, menu)
+        inflater.inflate(R.menu.run_menu, menu)
         this.menu = menu
     }
 

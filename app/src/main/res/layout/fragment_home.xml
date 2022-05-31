@@ -9,10 +9,10 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
-        app:civ_border_width="1dp"
-        app:civ_border_color="@color/primaryPurple"
         android:layout_marginTop="16dp"
         android:src="@drawable/profile1"
+        app:civ_border_color="@color/primaryPurple"
+        app:civ_border_width="1dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -72,8 +72,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
                     android:gravity="center"
+                    android:orientation="vertical"
                     android:padding="10dp">
 
                     <TextView
@@ -106,7 +106,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/secondView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="150dp"
                 android:layout_marginTop="10dp"
                 app:layout_constraintTop_toBottomOf="@id/caloriesCard">
 
@@ -124,11 +124,11 @@
                     android:layout_height="100dp"
                     android:layout_margin="10dp"
                     app:cardBackgroundColor="@color/primaryRed"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="10dp"
                     app:layout_constraintEnd_toStartOf="@id/guideline2"
-                    app:layout_constraintStart_toStartOf="parent">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -170,20 +170,19 @@
                     android:id="@+id/averageSpeedCard"
                     android:layout_width="0dp"
                     android:layout_height="100dp"
-                    app:layout_constraintTop_toTopOf="parent"
                     android:layout_margin="10dp"
                     app:cardBackgroundColor="@color/primaryGray"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/guideline2"
-                    >
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
                         android:gravity="center"
+                        android:orientation="vertical"
                         android:padding="10dp">
 
                         <TextView
@@ -214,7 +213,6 @@
                 </com.google.android.material.card.MaterialCardView>
 
 
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -233,8 +231,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
                     android:gravity="center"
+                    android:orientation="vertical"
                     android:padding="10dp">
 
                     <TextView
@@ -265,25 +263,23 @@
             </com.google.android.material.card.MaterialCardView>
 
 
-
             <TextView
                 android:id="@+id/anText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Analytics"
-                app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="30dp"
+                android:text="Analytics"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/secondView"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/secondView" />
 
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/lineChart"
                 android:layout_width="match_parent"
-                android:layout_margin="16dp"
                 android:layout_height="300dp"
-                app:layout_constraintTop_toBottomOf="@id/anText"
+                android:layout_margin="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                />
+                app:layout_constraintTop_toBottomOf="@id/anText" />
 
 
             <androidx.constraintlayout.widget.Guideline
@@ -296,7 +292,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

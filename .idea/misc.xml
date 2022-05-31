@@ -37,10 +37,13 @@
         <entry key="app/src/main/res/layout/fragment_weight.xml" value="0.24270833333333333" />
         <entry key="app/src/main/res/layout/fragment_workout.xml" value="0.24270833333333333" />
         <entry key="app/src/main/res/layout/item_run.xml" value="0.25" />
+        <entry key="app/src/main/res/menu/dashboard_menu.xml" value="0.24270833333333333" />
         <entry key="app/src/main/res/menu/main_bottom_nav.xml" value="0.23897435897435898" />
+        <entry key="app/src/main/res/menu/run_menu.xml" value="0.21481481481481482" />
         <entry key="app/src/main/res/menu/toolbar_run_filter.xml" value="0.24270833333333333" />
         <entry key="app/src/main/res/menu/toolbar_run_menu.xml" value="0.24270833333333333" />
         <entry key="app/src/main/res/menu/toolbar_running_tracking_menu.xml" value="0.24270833333333333" />
+        <entry key="app/src/main/res/menu/tracking_menu.xml" value="0.24270833333333333" />
       </map>
     </option>
   </component>
