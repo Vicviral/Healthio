@@ -4,10 +4,13 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.location.Location
 import android.os.Bundle
+import android.os.UserManager
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -27,6 +30,7 @@ import com.victorloveday.healthio.utils.constants.Constant.POLYLINE_COLOR
 import com.victorloveday.healthio.utils.constants.Constant.POLYLINE_WIDTH
 import com.victorloveday.healthio.utils.constants.Constant.RESUME_OR_START_RUN_SERVICE
 import com.victorloveday.healthio.utils.constants.Constant.STOP_RUN_SERVICE
+import com.victorloveday.healthio.utils.observeOnce
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -38,6 +42,8 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
     private val viewModel: MainViewModel by viewModels()
     private lateinit var binding: FragmentTrackingBinding
 
+    lateinit var userManager: com.victorloveday.healthio.database.UserManager
+
     private var isTracking = false
     private var pathPoints = mutableListOf<Polyline>()
 
@@ -46,9 +52,6 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
     private var currentTimeInMillis = 0L
 
     private var menu: Menu? = null
-
-    //for demo purpose
-    private var weight = 50F
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,6 +65,10 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentTrackingBinding.bind(view)
+
+        //initialize user manager
+        userManager = com.victorloveday.healthio.database.UserManager(requireContext())
+
 
         activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 
@@ -229,28 +236,31 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
     }
 
     private fun saveRunToRoom() {
-        map?.snapshot { bitmap ->
-            var distanceInMeters = 0
-            for (polyline in pathPoints) {
-                distanceInMeters += calculatePolylineLength(polyline).toInt()
+        userManager.userWeightFlow.asLiveData().observeOnce(viewLifecycleOwner, { userWeight ->
+            map?.snapshot { bitmap ->
+                var distanceInMeters = 0
+                for (polyline in pathPoints) {
+                    distanceInMeters += calculatePolylineLength(polyline).toInt()
+                }
+
+                val averageSpeed = round ((distanceInMeters / 1000F) / (currentTimeInMillis / 1000F / 60 / 60) * 10 ) / 10F
+                val dateTimeStamp = Calendar.getInstance().timeInMillis
+                val caloriesBurnt = ((distanceInMeters / 1000F) * userWeight).toInt()
+
+                val run  = Run(bitmap, dateTimeStamp, currentTimeInMillis, caloriesBurnt, distanceInMeters, averageSpeed)
+
+                //save run data to db
+                viewModel.addRun(run)
+
+                Alerter.create(activity)
+                    .setTitle("Alert Title")
+                    .setText("Alert text...")
+                    .show()
+
+                stopRun()
             }
 
-            val averageSpeed = round ((distanceInMeters / 1000F) / (currentTimeInMillis / 1000F / 60 / 60) * 10 ) / 10F
-            val dateTimeStamp = Calendar.getInstance().timeInMillis
-            val caloriesBurnt = ((distanceInMeters / 1000F) * weight).toInt()
-
-            val run  = Run(bitmap, dateTimeStamp, currentTimeInMillis, caloriesBurnt, distanceInMeters, averageSpeed)
-
-            //save run data to db
-            viewModel.addRun(run)
-
-            Alerter.create(activity)
-                .setTitle("Alert Title")
-                .setText("Alert text...")
-                .show()
-
-            stopRun()
-        }
+        })
     }
 
     override fun onResume() {
