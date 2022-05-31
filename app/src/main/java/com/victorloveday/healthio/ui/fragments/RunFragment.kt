@@ -2,7 +2,6 @@ package com.victorloveday.healthio.ui.fragments
 
 import android.Manifest
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.*
@@ -15,11 +14,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.victorloveday.healthio.R
 import com.victorloveday.healthio.adapters.RunAdapter
 import com.victorloveday.healthio.database.UserManager
 import com.victorloveday.healthio.databinding.FragmentRunBinding
-import com.victorloveday.healthio.ui.MainActivity
 import com.victorloveday.healthio.ui.viewmodels.MainViewModel
 import com.victorloveday.healthio.utils.constants.Constant.REQUEST_CODE_LOCATION_PERMISSION
 import com.victorloveday.healthio.utils.observeOnce
@@ -96,7 +95,7 @@ class RunFragment : Fragment(R.layout.fragment_run), EasyPermissions.PermissionC
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             R.id.searchRun -> {
                 Toast.makeText(requireContext(), "Coming soon..", Toast.LENGTH_SHORT).show()
             }
@@ -149,7 +148,7 @@ class RunFragment : Fragment(R.layout.fragment_run), EasyPermissions.PermissionC
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION
             )
-        }else {
+        } else {
             EasyPermissions.requestPermissions(
                 this,
                 "This app needs permission to your location to function properly",
@@ -185,7 +184,7 @@ class RunFragment : Fragment(R.layout.fragment_run), EasyPermissions.PermissionC
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
         if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
             AppSettingsDialog.Builder(this).build().show()
-        }else {
+        } else {
             requestPermissions()
         }
     }
@@ -200,8 +199,6 @@ class RunFragment : Fragment(R.layout.fragment_run), EasyPermissions.PermissionC
     }
 
 
-
-
     private fun checkIfWeightSaved() {
         userManager.userWeightFlow.asLiveData().observeOnce(viewLifecycleOwner, { userWeight ->
             if (userWeight == 0) {
@@ -211,27 +208,35 @@ class RunFragment : Fragment(R.layout.fragment_run), EasyPermissions.PermissionC
                 binding.done.setOnClickListener {
                     saveUserWeight()
                 }
-            }else {
+            } else {
                 findNavController().navigate(R.id.action_runFragment_to_trackingFragment)
             }
         })
     }
 
     private fun saveUserWeight() {
-        val userWeight = binding.weight.text.toString().toInt()
+        val userWeight = binding.weight.text.toString()
+        if (userWeight != "") {
+            GlobalScope.launch {
+                userManager.storeWeight(userWeight.toInt())
+            }
 
-        GlobalScope.launch {
-            userManager.storeWeight(userWeight)
+            findNavController().navigate(R.id.action_runFragment_to_trackingFragment)
+            Toast.makeText(requireContext(), "Saved Successfully!", Toast.LENGTH_SHORT).show()
+
+        }else {
+            Toast.makeText(requireContext(), "Empty Field!", Toast.LENGTH_SHORT).show()
         }
 
-        Toast.makeText(requireContext(), "Save Successfully!", Toast.LENGTH_SHORT).show()
-        findNavController().navigate(R.id.action_runFragment_to_trackingFragment)
     }
 
     private fun checkIfRunExist() {
         viewModel.runsSortedByDate.observeOnce(viewLifecycleOwner, { runs ->
             if (runs.isEmpty()) {
-
+                binding.emptyListGif.visibility = View.VISIBLE
+                binding.label.visibility = View.VISIBLE
+                binding.pointer.visibility = View.VISIBLE
+                Glide.with(requireContext()).asGif().load(R.drawable.weight).into(binding.emptyListGif)
             }
         })
     }
