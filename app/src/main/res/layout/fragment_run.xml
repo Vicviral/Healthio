@@ -58,11 +58,32 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:text="Hey Jane Doe. Tell us your body weight." />
+            android:weightSum="5"
+            android:padding="3dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"
+                android:src="@drawable/ic_baseline_info_24"
+                android:contentDescription="@string/info"
+              />
+
+            <TextView
+                android:id="@+id/info"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4.9"
+                android:layout_marginStart="5dp"
+                android:fontFamily="sans-serif-medium"/>
+
+
+        </LinearLayout>
+
 
         <EditText
             android:id="@+id/weight"

@@ -200,6 +200,10 @@ class RunFragment : Fragment(R.layout.fragment_run), EasyPermissions.PermissionC
 
 
     private fun checkIfWeightSaved() {
+        //display info
+        userManager.userNameFlow.asLiveData().observeOnce(viewLifecycleOwner, { userName ->
+            binding.info.text = "Hello, $userName. Tell us your body weight."
+        })
         userManager.userWeightFlow.asLiveData().observeOnce(viewLifecycleOwner, { userWeight ->
             if (userWeight == 0) {
                 binding.addWeightBottomSheet.visibility = View.VISIBLE
