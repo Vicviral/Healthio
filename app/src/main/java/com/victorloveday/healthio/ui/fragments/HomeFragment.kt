@@ -1,16 +1,24 @@
 package com.victorloveday.healthio.ui.fragments
 
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.*
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
 import com.victorloveday.healthio.R
 import com.victorloveday.healthio.database.UserManager
 import com.victorloveday.healthio.databinding.FragmentHomeBinding
 import com.victorloveday.healthio.ui.settings.SettingsActivity
 import com.victorloveday.healthio.ui.viewmodels.StatisticsViewModel
+import com.victorloveday.healthio.utils.DashboardMarkerView
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 import kotlin.math.round
@@ -42,6 +50,34 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
         userManager = UserManager(requireContext())
 
         observerUserData()
+
+        //setup analytics graph
+        setupAnalyticsGraph()
+    }
+
+    private fun setupAnalyticsGraph() {
+        binding.analyticsChart.xAxis.apply {
+            position = XAxis.XAxisPosition.BOTTOM
+            setDrawLabels(false)
+            axisLineColor = Color.parseColor("#FFBB86FC")
+            textColor = Color.parseColor("#FFBB86FC")
+            setDrawGridLines(false)
+        }
+
+        binding.analyticsChart.axisLeft.apply {
+            axisLineColor = Color.parseColor("#FFBB86FC")
+            textColor = Color.parseColor("#FFBB86FC")
+            setDrawGridLines(false)
+        }
+        binding.analyticsChart.axisRight.apply {
+            axisLineColor = Color.parseColor("#FFBB86FC")
+            textColor = Color.parseColor("#FFBB86FC")
+            setDrawGridLines(false)
+        }
+        binding.analyticsChart.apply {
+            description.text = "Average speed over t"
+            legend.isEnabled = true
+        }
     }
 
     private fun observerUserData() {
@@ -75,6 +111,19 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
             avgSpeed?.let {
                 val averageSpeed = round(avgSpeed * 10F) / 10F
                 binding.totalAverageTime.text = "$averageSpeed"+"km/hr"
+            }
+        })
+
+        viewModel.sortRunByDate.observe(viewLifecycleOwner, { runs ->
+            runs?.let {
+               val allAvgSpeed = runs.indices.map{ i -> BarEntry(i.toFloat(), runs[0].averageSpeed)}
+                val dataSet = BarDataSet(allAvgSpeed, "Avg speed over time").apply {
+                    valueTextColor = Color.parseColor("#FFBB86FC")
+                    color = Color.parseColor("#1EB6E1")
+                }
+                binding.analyticsChart.data = BarData(dataSet)
+                binding.analyticsChart.marker = DashboardMarkerView(it.reversed(), requireContext(), R.layout.dashboard_marker_view)
+                binding.analyticsChart.invalidate()
             }
         })
     }

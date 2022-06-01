@@ -27,6 +27,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_setttings.xml" value="0.21481481481481482" />
         <entry key="app/src/main/res/layout/activity_setup.xml" value="0.22864583333333333" />
+        <entry key="app/src/main/res/layout/analytics_graph_marker.xml" value="0.24270833333333333" />
         <entry key="app/src/main/res/layout/fragment_account.xml" value="0.24270833333333333" />
         <entry key="app/src/main/res/layout/fragment_help.xml" value="0.24270833333333333" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.24270833333333333" />
