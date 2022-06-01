@@ -17,11 +17,28 @@ class UserManager(context: Context) {
         val GENDER_KEY = preferencesKey<String>("USER_GENDER")
         val AGE_KEY = preferencesKey<Int>("USER_AGE")
         val WEIGHT_KEY = preferencesKey<Int>("USER_WEIGHT")
+        val BIO_KEY = preferencesKey<String>("USER_BIO")
     }
 
     suspend fun storeWeight(weight: Int) {
         dataStore.edit {
             it[WEIGHT_KEY] = weight
+        }
+    }
+
+    suspend fun storeBio(bio: String) {
+        dataStore.edit {
+            it[BIO_KEY] = bio
+        }
+    }
+    suspend fun storeUserName(name: String) {
+        dataStore.edit {
+            it[NAME_KEY] = name
+        }
+    }
+    suspend fun storeAge(age: Int) {
+        dataStore.edit {
+            it[AGE_KEY] = age
         }
     }
 
@@ -48,6 +65,11 @@ class UserManager(context: Context) {
 
         age
     }
+
+    val userBioFlow: Flow<String> = dataStore.data.map {
+        it[BIO_KEY] ?: ""
+    }
+
     val userWeightFlow: Flow<Int> = dataStore.data.map {
         it[WEIGHT_KEY] ?: 0
     }

@@ -14,13 +14,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <ImageButton
         android:id="@+id/editProfilePic"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:background="@android:color/transparent"
         android:src="@drawable/ic_profile_camera_icon"
         app:layout_constraintBottom_toBottomOf="@id/profilePic"
-        app:layout_constraintEnd_toEndOf="@+id/profilePic" />
+        app:layout_constraintEnd_toEndOf="@+id/profilePic"
+        android:contentDescription="@string/editprofilepic" />
 
 
     <ScrollView
@@ -70,6 +72,7 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/userName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
@@ -127,6 +130,7 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/userBio"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
@@ -183,6 +187,7 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/userAge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
@@ -240,6 +245,7 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/userWeight"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
@@ -339,6 +345,95 @@
 
         <Button
             android:id="@+id/saveWeight"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/primary_button"
+            android:fontFamily="@font/roboto"
+            android:text="Save"
+            android:textAllCaps="false"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/editBioBottomSheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/bottom_sheet_bg"
+        android:elevation="20dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <EditText
+            android:id="@+id/bioEdit"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:hint="Burning some calories"
+            android:background="@drawable/field_input_bg"
+            android:fontFamily="@font/roboto"
+            android:textAlignment="center"
+            android:textColorHint="#6C6B6B" />
+
+        <Button
+            android:id="@+id/saveBio"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/primary_button"
+            android:fontFamily="@font/roboto"
+            android:text="Save"
+            android:textAllCaps="false"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/editAgeBottomSheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/bottom_sheet_bg"
+        android:elevation="20dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <EditText
+            android:id="@+id/ageEdit"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:hint="24"
+            android:background="@drawable/field_input_bg"
+            android:fontFamily="@font/roboto"
+            android:inputType="number"
+            android:textAlignment="center"
+            android:textColorHint="#6C6B6B" />
+
+        <Button
+            android:id="@+id/saveAge"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_margin="20dp"
