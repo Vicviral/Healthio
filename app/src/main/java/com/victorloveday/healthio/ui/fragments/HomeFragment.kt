@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.asLiveData
 import com.victorloveday.healthio.R
+import com.victorloveday.healthio.database.UserManager
 import com.victorloveday.healthio.databinding.FragmentHomeBinding
 import com.victorloveday.healthio.ui.settings.SettingsActivity
 import com.victorloveday.healthio.ui.viewmodels.StatisticsViewModel
@@ -19,6 +21,7 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
     private val viewModel: StatisticsViewModel by viewModels()
     private lateinit var binding: FragmentHomeBinding
     private var menu: Menu? = null
+    private lateinit var userManager: UserManager
 
 
     override fun onCreateView(
@@ -35,10 +38,18 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeBinding.bind(view)
 
+        //initialize user manager
+        userManager = UserManager(requireContext())
+
         observerUserData()
     }
 
     private fun observerUserData() {
+        //user name
+        userManager.userNameFlow.asLiveData().observe(viewLifecycleOwner, { userName ->
+            binding.userName.text = userName
+        })
+
         viewModel.totalCaloriesBurnt.observe(viewLifecycleOwner, { calories ->
             calories?.let {
                 binding.totalCalories.text = "$calories"+"kcal"
@@ -102,6 +113,12 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
                 "${if(minutes < 10) "0" else ""}$minutes:" +
                 "${if(seconds < 10) "0" else ""}$seconds:" +
                 "${if(milliseconds < 10) "0" else ""}$milliseconds"
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        observerUserData()
     }
 
 }
