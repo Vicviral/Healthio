@@ -25,6 +25,7 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.Theme_Healthio)
         binding = ActivitySetttingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
