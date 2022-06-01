@@ -1,8 +1,6 @@
 package com.victorloveday.healthio.ui.fragments
 
-import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.view.*
 import androidx.core.content.ContextCompat
@@ -22,6 +20,9 @@ import com.victorloveday.healthio.utils.DashboardMarkerView
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 import kotlin.math.round
+import android.widget.Toast
+import java.util.*
+
 
 @AndroidEntryPoint
 class HomeFragment: Fragment(R.layout.fragment_home) {
@@ -125,6 +126,23 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
                 binding.analyticsChart.invalidate()
             }
         })
+
+        salutation()
+    }
+
+    private fun salutation() {
+        val c: Calendar = Calendar.getInstance()
+        val timeOfDay: Int = c.get(Calendar.HOUR_OF_DAY)
+
+        if (timeOfDay in 0..11) {
+            binding.salute.text = "Good Morning"
+        } else if (timeOfDay >= 12 && timeOfDay < 16) {
+            binding.salute.text = "Good Afternoon"
+        } else if (timeOfDay >= 16 && timeOfDay < 21) {
+            binding.salute.text = "Good Evening"
+        } else if (timeOfDay >= 21 && timeOfDay < 24) {
+            binding.salute.text = "Good Night"
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
