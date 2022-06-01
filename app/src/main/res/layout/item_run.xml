@@ -11,7 +11,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_margin="0dp"
-        android:background="@drawable/purple_circle"
+        android:background="@drawable/black_circle"
         android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">

@@ -36,7 +36,7 @@
         android:contentDescription="@string/add_run"
         android:scaleType="center"
         android:src="@drawable/ic_add_run_icon_2"
-        app:backgroundTint="@color/primaryBlue"
+        app:backgroundTint="@color/primaryPurple"
         app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

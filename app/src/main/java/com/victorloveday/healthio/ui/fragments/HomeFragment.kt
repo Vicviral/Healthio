@@ -20,7 +20,6 @@ import com.victorloveday.healthio.utils.DashboardMarkerView
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 import kotlin.math.round
-import android.widget.Toast
 import java.util.*
 
 
@@ -118,8 +117,8 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
             it?.let {
                 val allAvgSpeeds = it.indices.map { i -> BarEntry(i.toFloat(), it[i].averageSpeed) }
                 val dataSet = BarDataSet(allAvgSpeeds, "Avg Speed Over Time").apply {
-                    valueTextColor = ContextCompat.getColor(requireContext(), R.color.primaryBlue)
-                    color = ContextCompat.getColor(requireContext(), R.color.primaryBlue)
+                    valueTextColor = ContextCompat.getColor(requireContext(), R.color.primaryPurple)
+                    color = ContextCompat.getColor(requireContext(), R.color.primaryPurple)
                 }
                 binding.analyticsChart.data = BarData(dataSet)
                 binding.analyticsChart.marker = DashboardMarkerView(it.reversed(), requireContext(), R.layout.dashboard_marker_view)
