@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/dashboard_marker"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/primaryBlue"
     app:cardCornerRadius="15dp"
-    app:cardElevation="10dp"
-    android:id="@+id/dashboard_marker">
+    app:cardElevation="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,39 +15,45 @@
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/markerDate"
+            android:id="@+id/markerCaloriesBurned"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/date"
-            android:gravity="start"/>
+            android:gravity="start"
+            android:text="@string/calories_burned"
+            android:textColor="@color/white" />
+
 
         <TextView
             android:id="@+id/markerDuration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="start"
             android:text="@string/duration"
-            android:gravity="start"/>
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/markerAvgSpeed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="start"
             android:text="@string/average_speed"
-            android:gravity="start"/>
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/markerDistance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="start"
             android:text="@string/distance"
-            android:gravity="start"/>
+            android:textColor="@color/white" />
 
         <TextView
-            android:id="@+id/markerCaloriesBurned"
+            android:id="@+id/markerDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/calories_burned"
-            android:gravity="start"/>
+            android:gravity="start"
+            android:text="@string/date"
+            android:textColor="@color/white" />
 
     </LinearLayout>
 

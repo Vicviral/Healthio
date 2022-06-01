@@ -33,17 +33,18 @@ class DashboardMarkerView(
             timeInMillis = run.date
         }
         val dateFormat = SimpleDateFormat("dd.MM.yy", Locale.getDefault())
-        markerDate.text = dateFormat.format(calendar.time)
+        markerDate.text = "date: ${dateFormat.format(calendar.time)}"
 
-        val avgSpeed = "${run.averageSpeed}km/h"
-        markerAvgSpeed.text = avgSpeed
+        val avgSpeed = "${run.averageSpeed}"
+        markerAvgSpeed.text = "km/h: $avgSpeed"
 
-        val distanceInKm = "${run.distanceCovered / 1000f}km"
-        markerDistance.text = distanceInKm
+        val distanceInKm = "${run.distanceCovered / 1000f}"
+        markerDistance.text = "km: $distanceInKm"
 
-        markerDuration.text = HomeFragment().getFormattedStopWatchTime(run.duration)
+        val duration = HomeFragment().getFormattedStopWatchTime(run.duration)
+        markerDuration.text = "time: $duration"
 
-        val caloriesBurned = "${run.burntCalories}kcal"
-        markerCaloriesBurned.text = caloriesBurned
+        val caloriesBurned = "${run.burntCalories}"
+        markerCaloriesBurned.text = "kcal: $caloriesBurned"
     }
 }
