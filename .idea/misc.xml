@@ -17,15 +17,22 @@
         <entry key="app/src/main/res/drawable/ic_baseline_arrow_right_alt_24.xml" value="0.2548717948717949" />
         <entry key="app/src/main/res/drawable/ic_baseline_fiber_manual_record_24.xml" value="0.2548717948717949" />
         <entry key="app/src/main/res/drawable/ic_baseline_info_24.xml" value="0.25885416666666666" />
+        <entry key="app/src/main/res/drawable/ic_baseline_info_24_black.xml" value="0.2548717948717949" />
         <entry key="app/src/main/res/drawable/ic_close_white.xml" value="0.2548717948717949" />
         <entry key="app/src/main/res/drawable/ic_commuinity_icon.xml" value="0.2548717948717949" />
         <entry key="app/src/main/res/drawable/ic_delete.xml" value="0.2548717948717949" />
         <entry key="app/src/main/res/drawable/ic_path_icon.xml" value="0.25885416666666666" />
+        <entry key="app/src/main/res/drawable/ic_profile2.xml" value="0.2548717948717949" />
         <entry key="app/src/main/res/drawable/ic_workout_icon.xml" value="0.2548717948717949" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_setttings.xml" value="0.21481481481481482" />
         <entry key="app/src/main/res/layout/activity_setup.xml" value="0.22864583333333333" />
+        <entry key="app/src/main/res/layout/fragment_account.xml" value="0.24270833333333333" />
+        <entry key="app/src/main/res/layout/fragment_help.xml" value="0.24270833333333333" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.24270833333333333" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.23897435897435898" />
+        <entry key="app/src/main/res/layout/fragment_my_profile.xml" value="0.24270833333333333" />
+        <entry key="app/src/main/res/layout/fragment_notification.xml" value="0.24270833333333333" />
         <entry key="app/src/main/res/layout/fragment_on_boarding.xml" value="0.23897435897435898" />
         <entry key="app/src/main/res/layout/fragment_people.xml" value="0.24270833333333333" />
         <entry key="app/src/main/res/layout/fragment_preference.xml" value="0.24270833333333333" />

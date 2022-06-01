@@ -25,10 +25,13 @@
     <string name="info">info</string>
     <string name="good_morning">Good Morning</string>
     <string name="userName">Jane Doe</string>
-    <string name="about">Burning some fats</string>
+    <string name="bio">Burning some fats</string>
     <string name="account">Account</string>
     <string name="notification">Notification</string>
     <string name="reminders">Reminders</string>
     <string name="help">Help</string>
     <string name="share">Share</string>
+    <string name="about">About</string>
+    <string name="age">Age</string>
+    <string name="weight">Weight</string>
 </resources>
