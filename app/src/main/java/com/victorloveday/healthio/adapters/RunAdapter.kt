@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.victorloveday.healthio.database.models.Run
 import com.victorloveday.healthio.databinding.FragmentTrackingBinding
 import com.victorloveday.healthio.databinding.ItemRunBinding
+import com.victorloveday.healthio.ui.fragments.HomeFragment
 import com.victorloveday.healthio.ui.fragments.TrackingFragment
 import java.text.SimpleDateFormat
 import java.util.*
@@ -63,7 +64,7 @@ class RunAdapter : RecyclerView.Adapter<RunAdapter.RunViewHolder>() {
                 val distanceInKm = "${run.distanceCovered / 1000f}km"
                 totalDistance.text = distanceInKm
 
-                totalTime.text = TrackingFragment().getFormattedStopWatchTime(run.duration)
+                totalTime.text = HomeFragment().getFormattedStopWatchTime(run.duration)
 
                 val caloriesBurned = "${run.burntCalories}"
                 burntCalories.text = caloriesBurned

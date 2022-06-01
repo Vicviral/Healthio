@@ -25,6 +25,7 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.maps.model.LatLng
 import com.victorloveday.healthio.R
 import com.victorloveday.healthio.ui.MainActivity
+import com.victorloveday.healthio.ui.fragments.HomeFragment
 import com.victorloveday.healthio.ui.fragments.TrackingFragment
 import com.victorloveday.healthio.utils.RunTrackingUtility
 import com.victorloveday.healthio.utils.constants.Constant.FASTEST_LOCATION_UPDATE_INTERVAL
@@ -264,7 +265,7 @@ class RunTrackingService : LifecycleService() {
         timeRunInSeconds.observe(this, Observer {
             if (!serviceKilled) {
                 val notification = currentNotificationBuilder
-                    .setContentText(TrackingFragment().getFormattedStopWatchTime(it * 1000))
+                    .setContentText(HomeFragment().getFormattedStopWatchTime(it * 1000))
                 notificationManager.notify(NOTIFICATION_ID, notification.build())
             }
         })
