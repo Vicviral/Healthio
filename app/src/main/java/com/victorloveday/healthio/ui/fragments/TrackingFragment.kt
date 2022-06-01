@@ -128,6 +128,7 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
     }
 
     private fun stopRun() {
+        binding.timer.text = "00:00:00:00"
         sendCommandToRunService(STOP_RUN_SERVICE)
         findNavController().navigate(R.id.action_trackingFragment_to_runFragment)
     }
@@ -175,10 +176,10 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
 
     private fun updateTracking(isTracking: Boolean) {
         this.isTracking = isTracking
-        if(!isTracking) {
-            binding.startRunTxt.text = "Start"
+        if(!isTracking && currentTimeInMillis > 0L) {
+            binding.startRunTxt.text = "Resume"
             binding.stopRun.visibility = View.VISIBLE
-        } else {
+        } else if (isTracking) {
             binding.startRunTxt.text = "Stop"
             menu?.getItem(0)?.isVisible = true
             binding.stopRun.visibility = View.GONE
