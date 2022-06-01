@@ -58,25 +58,24 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
     private fun setupAnalyticsGraph() {
         binding.analyticsChart.xAxis.apply {
             position = XAxis.XAxisPosition.BOTTOM
-            setDrawLabels(false)
-            axisLineColor = Color.parseColor("#FFBB86FC")
-            textColor = Color.parseColor("#FFBB86FC")
+            setDrawLabels(true)
+            axisLineColor = ContextCompat.getColor(requireContext(), R.color.primaryGray)
+            textColor = ContextCompat.getColor(requireContext(), R.color.primaryGray)
             setDrawGridLines(false)
         }
-
         binding.analyticsChart.axisLeft.apply {
-            axisLineColor = Color.parseColor("#FFBB86FC")
-            textColor = Color.parseColor("#FFBB86FC")
+            axisLineColor = ContextCompat.getColor(requireContext(), R.color.primaryGray)
+            textColor = ContextCompat.getColor(requireContext(), R.color.primaryGray)
             setDrawGridLines(false)
         }
         binding.analyticsChart.axisRight.apply {
-            axisLineColor = Color.parseColor("#FFBB86FC")
-            textColor = Color.parseColor("#FFBB86FC")
+            axisLineColor = ContextCompat.getColor(requireContext(), R.color.primaryGray)
+            textColor = ContextCompat.getColor(requireContext(), R.color.primaryGray)
             setDrawGridLines(false)
         }
         binding.analyticsChart.apply {
-            description.text = "Average speed over t"
-            legend.isEnabled = true
+            description.text = "Average speed over time"
+            legend.isEnabled = false
         }
     }
 
@@ -114,12 +113,12 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
             }
         })
 
-        viewModel.sortRunByDate.observe(viewLifecycleOwner, { runs ->
-            runs?.let {
-               val allAvgSpeed = runs.indices.map{ i -> BarEntry(i.toFloat(), runs[0].averageSpeed)}
-                val dataSet = BarDataSet(allAvgSpeed, "Avg speed over time").apply {
-                    valueTextColor = Color.parseColor("#FFBB86FC")
-                    color = Color.parseColor("#1EB6E1")
+        viewModel.sortRunByDate.observe(viewLifecycleOwner, {
+            it?.let {
+                val allAvgSpeeds = it.indices.map { i -> BarEntry(i.toFloat(), it[i].averageSpeed) }
+                val dataSet = BarDataSet(allAvgSpeeds, "Avg Speed Over Time").apply {
+                    valueTextColor = ContextCompat.getColor(requireContext(), R.color.primaryBlue)
+                    color = ContextCompat.getColor(requireContext(), R.color.primaryBlue)
                 }
                 binding.analyticsChart.data = BarData(dataSet)
                 binding.analyticsChart.marker = DashboardMarkerView(it.reversed(), requireContext(), R.layout.dashboard_marker_view)

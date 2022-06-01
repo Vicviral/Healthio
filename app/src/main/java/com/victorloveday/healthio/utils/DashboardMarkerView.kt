@@ -13,43 +13,37 @@ import java.util.*
 
 class DashboardMarkerView(
     val runs: List<Run>,
-    con: Context,
+    c: Context,
     layoutId: Int
-) : MarkerView(con, layoutId) {
+) : MarkerView(c, layoutId) {
 
     override fun getOffset(): MPPointF {
-        return MPPointF(-width / 2F, -height.toFloat())
-
+        return MPPointF(-width / 2f, -height.toFloat())
     }
 
     override fun refreshContent(e: Entry?, highlight: Highlight?) {
         super.refreshContent(e, highlight)
-
-        if (e == null) {
+        if(e == null) {
             return
         }
+        val curRunId = e.x.toInt()
+        val run = runs[curRunId]
 
-        val currentRunId = e.x.toInt()
-        val run = runs[currentRunId]
-
-        var calendar = Calendar.getInstance().apply {
+        val calendar = Calendar.getInstance().apply {
             timeInMillis = run.date
         }
+        val dateFormat = SimpleDateFormat("dd.MM.yy", Locale.getDefault())
+        markerDate.text = dateFormat.format(calendar.time)
 
-        var dateFormat = SimpleDateFormat("dd.MM.yy", Locale.getDefault())
-//        markerDate = dateFormat.format(calendar.time)
-
-        var avgSpeed = "${run.averageSpeed}km/h"
+        val avgSpeed = "${run.averageSpeed}km/h"
         markerAvgSpeed.text = avgSpeed
 
-        var distanceInKm = "${run.distanceCovered / 1000f}km"
+        val distanceInKm = "${run.distanceCovered / 1000f}km"
         markerDistance.text = distanceInKm
 
         markerDuration.text = HomeFragment().getFormattedStopWatchTime(run.duration)
 
-        var caloriesBurned = "${run.burntCalories}"
+        val caloriesBurned = "${run.burntCalories}kcal"
         markerCaloriesBurned.text = caloriesBurned
-
     }
-
 }

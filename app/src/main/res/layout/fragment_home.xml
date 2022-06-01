@@ -47,7 +47,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="20dp"
         android:padding="6dp"
         android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -266,20 +266,35 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-
-            <TextView
+            <LinearLayout
                 android:id="@+id/anText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Analytics"
+                android:gravity="center"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/secondView" />
+                app:layout_constraintTop_toBottomOf="@id/secondView">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Analytics"
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:src="@drawable/ic_baseline_auto_graph_24"/>
+
+            </LinearLayout>
+
 
             <com.github.mikephil.charting.charts.BarChart
                 android:id="@+id/analyticsChart"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="250dp"
                 android:layout_margin="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/anText" />
