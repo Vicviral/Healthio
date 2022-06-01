@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
 
         //bottom nav bar
         binding.bottomNavigationView.setupWithNavController(navController)
+        binding.bottomNavigationView.setOnNavigationItemReselectedListener { /* Nothing */ }
 
 
     }
