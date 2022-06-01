@@ -37,6 +37,6 @@ interface RunDao {
     fun getTotalDistanceCovered(): LiveData<Int>
 
     @Query("SELECT SUM(duration) FROM running_table")
-    fun getTotalTimeSpent(): LiveData<Int>
+    fun getTotalTimeSpent(): LiveData<Long>
 
 }

@@ -15,8 +15,8 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.tapadoo.alerter.Alerter
 import com.victorloveday.healthio.R
+import com.victorloveday.healthio.database.UserManager
 import com.victorloveday.healthio.database.models.Run
 import com.victorloveday.healthio.databinding.FragmentTrackingBinding
 import com.victorloveday.healthio.services.Polyline
@@ -40,7 +40,7 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
     private val viewModel: MainViewModel by viewModels()
     private lateinit var binding: FragmentTrackingBinding
 
-    lateinit var userManager: com.victorloveday.healthio.database.UserManager
+    lateinit var userManager: UserManager
 
     private var isTracking = false
     private var pathPoints = mutableListOf<Polyline>()
@@ -65,9 +65,9 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
         binding = FragmentTrackingBinding.bind(view)
 
         //initialize user manager
-        userManager = com.victorloveday.healthio.database.UserManager(requireContext())
+        userManager = UserManager(requireContext())
 
-
+        //set this fragment to portrait for better UX
         activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 
         binding.mapView.onCreate(savedInstanceState)
@@ -88,7 +88,6 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
 
         subscribeToObservers()
 
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -105,7 +104,7 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             R.id.cancelRun -> {
                 showCancelRunDialog()
             }
@@ -133,27 +132,25 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
         findNavController().navigate(R.id.action_trackingFragment_to_runFragment)
     }
 
-    private fun sendCommandToRunService(action: String) =
-        Intent(requireContext(), RunTrackingService::class.java).also {
+    private fun sendCommandToRunService(action: String) = Intent(requireContext(), RunTrackingService::class.java).also {
             it.action = action
             requireContext().startService(it)
         }
 
-   private fun joinLastPolylines() {
-       if (pathPoints.isNotEmpty()  && pathPoints.last().size > 1) {
-           val preLastCoordinate = pathPoints.last()[pathPoints.last().size - 2]
-           val lastCoordinate = pathPoints.last().last()
+    private fun joinLastPolylines() {
+        if (pathPoints.isNotEmpty() && pathPoints.last().size > 1) {
+            val preLastCoordinate = pathPoints.last()[pathPoints.last().size - 2]
+            val lastCoordinate = pathPoints.last().last()
 
-           val polylineOptions = PolylineOptions()
-               .color(POLYLINE_COLOR)
-               .width(POLYLINE_WIDTH)
-               .add(preLastCoordinate)
-               .add(lastCoordinate)
+            val polylineOptions = PolylineOptions()
+                .color(POLYLINE_COLOR)
+                .width(POLYLINE_WIDTH)
+                .add(preLastCoordinate)
+                .add(lastCoordinate)
+            map?.addPolyline(polylineOptions)
+        }
+    }
 
-           map?.addPolyline(polylineOptions)
-       }
-   }
-    
     private fun joinAllPolylines() {
         for (polyline in pathPoints) {
             val polylineOptions = PolylineOptions()
@@ -166,7 +163,7 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
 
 
     private fun updateCameraPosition() {
-        if(pathPoints.isNotEmpty() && pathPoints.last().isNotEmpty()) {
+        if (pathPoints.isNotEmpty() && pathPoints.last().isNotEmpty()) {
             map?.animateCamera(
                 CameraUpdateFactory.newLatLngZoom(
                     pathPoints.last().last(),
@@ -178,11 +175,10 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
 
     private fun updateTracking(isTracking: Boolean) {
         this.isTracking = isTracking
-        if (!isTracking) {
-            binding.startRunTxt.text = "Resume"
-            //set finish button visible
+        if(!isTracking) {
+            binding.startRunTxt.text = "Start"
             binding.stopRun.visibility = View.VISIBLE
-        }else {
+        } else {
             binding.startRunTxt.text = "Stop"
             menu?.getItem(0)?.isVisible = true
             binding.stopRun.visibility = View.GONE
@@ -190,23 +186,25 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
     }
 
     private fun startRun() {
-        if (isTracking) {
+        if(isTracking) {
             menu?.getItem(0)?.isVisible = true
             sendCommandToRunService(PAUSE_RUN_SERVICE)
-        }else {
+        } else {
             sendCommandToRunService(RESUME_OR_START_RUN_SERVICE)
         }
     }
 
     private fun subscribeToObservers() {
-        RunTrackingService.isTracking.observe(viewLifecycleOwner, Observer { boolean ->
-            updateTracking(boolean)
+        RunTrackingService.isTracking.observe(viewLifecycleOwner, Observer {
+            updateTracking(it)
         })
-        RunTrackingService.pathPoints.observe(viewLifecycleOwner, Observer {  polylines ->
-            pathPoints = polylines
+
+        RunTrackingService.pathPoints.observe(viewLifecycleOwner, Observer {
+            pathPoints = it
             joinLastPolylines()
             updateCameraPosition()
         })
+
         RunTrackingService.timeRunInMillis.observe(viewLifecycleOwner, Observer {
             currentTimeInMillis = it
             val formattedTIme = getFormattedStopWatchTime(currentTimeInMillis, true)
@@ -215,10 +213,10 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
     }
 
     private fun zoomToSeeFullTrack() {
-        val bounds = LatLngBounds.builder()
+        val bounds = LatLngBounds.Builder()
         for (polyline in pathPoints) {
-            for (position in polyline) {
-                bounds.include(position)
+            for (pos in polyline) {
+                bounds.include(pos)
             }
         }
 
@@ -228,7 +226,6 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
                 binding.mapView.width,
                 binding.mapView.height,
                 (binding.mapView.height * 0.05f).toInt()
-
             )
         )
     }
@@ -240,24 +237,21 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
                 for (polyline in pathPoints) {
                     distanceInMeters += calculatePolylineLength(polyline).toInt()
                 }
-
-                val averageSpeed = round ((distanceInMeters / 1000F) / (currentTimeInMillis / 1000F / 60 / 60) * 10 ) / 10F
+                val averageSpeed =
+                    round((distanceInMeters / 1000f) / (currentTimeInMillis / 1000f / 60 / 60) * 10) / 10f
                 val dateTimeStamp = Calendar.getInstance().timeInMillis
-                val caloriesBurnt = ((distanceInMeters / 1000F) * userWeight).toInt()
-
-                val run  = Run(bitmap, dateTimeStamp, currentTimeInMillis, caloriesBurnt, distanceInMeters, averageSpeed)
-
-                //save run data to db
+                val caloriesBurned = ((distanceInMeters / 1000f) * userWeight).toInt()
+                val run = Run(
+                    bitmap,
+                    dateTimeStamp,
+                    currentTimeInMillis,
+                    caloriesBurned,
+                    distanceInMeters,
+                    averageSpeed
+                )
                 viewModel.addRun(run)
-
-                Alerter.create(activity)
-                    .setTitle("Alert Title")
-                    .setText("Alert text...")
-                    .show()
-
                 stopRun()
             }
-
         })
     }
 
@@ -298,39 +292,35 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
         val minutes = TimeUnit.MILLISECONDS.toMinutes(milliseconds)
         milliseconds -= TimeUnit.MINUTES.toMillis(minutes)
         val seconds = TimeUnit.MILLISECONDS.toSeconds(milliseconds)
-        if(!includeMillis) {
-            return "${if(hours < 10) "0" else ""}$hours:" +
-                    "${if(minutes < 10) "0" else ""}$minutes:" +
-                    "${if(seconds < 10) "0" else ""}$seconds"
+        if (!includeMillis) {
+            return "${if (hours < 10) "0" else ""}$hours:" +
+                    "${if (minutes < 10) "0" else ""}$minutes:" +
+                    "${if (seconds < 10) "0" else ""}$seconds"
         }
         milliseconds -= TimeUnit.SECONDS.toMillis(seconds)
         milliseconds /= 10
-        return "${if(hours < 10) "0" else ""}$hours:" +
-                "${if(minutes < 10) "0" else ""}$minutes:" +
-                "${if(seconds < 10) "0" else ""}$seconds:" +
-                "${if(milliseconds < 10) "0" else ""}$milliseconds"
+        return "${if (hours < 10) "0" else ""}$hours:" +
+                "${if (minutes < 10) "0" else ""}$minutes:" +
+                "${if (seconds < 10) "0" else ""}$seconds:" +
+                "${if (milliseconds < 10) "0" else ""}$milliseconds"
     }
 
     fun calculatePolylineLength(polyline: Polyline): Float {
-        var distance = 0F
+        var distance = 0f
         for (i in 0..polyline.size - 2) {
-            val position1 = polyline[i]
-            val position2 = polyline[i+1]
+            val pos1 = polyline[i]
+            val pos2 = polyline[i + 1]
 
             val result = FloatArray(1)
-
             Location.distanceBetween(
-                position1.latitude,
-                position1.longitude,
-                position2.latitude,
-                position2.longitude,
+                pos1.latitude,
+                pos1.longitude,
+                pos2.latitude,
+                pos2.longitude,
                 result
             )
-
             distance += result[0]
         }
-
         return distance
     }
-
 }

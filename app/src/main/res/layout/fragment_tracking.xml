@@ -14,7 +14,7 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clInnerLayout"
+        android:id="@+id/timerLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:paddingStart="10dp"
@@ -64,7 +64,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Finish"
+                    android:text="@string/finish"
                     android:textColor="@color/white"
                     android:textStyle="bold" />
             </com.google.android.material.card.MaterialCardView>
@@ -83,7 +83,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Start"
+                    android:text="@string/start"
                     android:textColor="@color/white"
                     android:textStyle="bold" />
             </com.google.android.material.card.MaterialCardView>
@@ -98,7 +98,7 @@
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/clInnerLayout"
+        app:layout_constraintBottom_toTopOf="@+id/timerLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
